@@ -1,0 +1,32 @@
+@extends('customlayouts.app')
+@section('content')
+
+<div class="d-flex justify-content-end mb-2">
+
+    <a href="{{ route('categories.create') }}" class="btn btn-success">Add Category</a>
+</div>
+
+<div class="card card-default">
+    <div class="card-header">
+        Categories
+    </div>
+    <div class="card-body">
+
+        <table class="table">
+            <thead>
+                <th>name</th>
+            </thead>
+            <tbody>
+                @foreach($categories as $category)
+                <tr>
+                    <td>{{ $category->name }} <a href="./categories/{{ $category->id }}/edit">Edit</a> <a href="./categories/{{ $category->id }}/delete">Delete</a></td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+@endsection
