@@ -6,6 +6,9 @@ use App\Models\Category;
 
 use Illuminate\Http\Request;
 
+use App\Http\Requests\CreateCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
+
 class CategoriesController extends Controller
 {
     public function index() {
@@ -16,36 +19,27 @@ class CategoriesController extends Controller
         return view('categories.create');
     }
 
-    public function store(Request $request) {
-        
-        $this->validate(request(), [
-            'name' => 'required|unique:categories'
-        ]);
-
+    public function store(CreateCategoryRequest $request) {
+    
         Category::create([
             'name'=>$request->name
         ]);
-        
+
         session()->flash('success', 'Category created successfully!');
 
         return redirect(route('categories'));
     }
 
     public function edit(Category $category) {
-        return view('categories.edit')->with('category', $category);
+        return view('categories.create')->with('category', $category);
     }
 
-    public function update(Category $category) {
+    public function update(UpdateCategoryRequest $request) {
 
-        $this->validate(request(), [
-            'name' => 'required'
+        Category::where('id', $request->id)->update([
+            'name' => $request->name
         ]);
-        $data = request()->all();
-        
 
-        $category->name = $data['name'];
-
-        $category->save();
         session()->flash('success', 'category updated successfully!');
 
         return redirect('/categories');

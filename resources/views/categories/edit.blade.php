@@ -12,6 +12,7 @@
 @endif
 <form action="./update" method="post">
     @csrf
+    <input type="hidden" name="id" value="{{ $category->id }}">
     <input type="text" name="name" placeholder="name" value="{{ $category->name }}">
     <button type="submit">Edit</button>
 </form>
