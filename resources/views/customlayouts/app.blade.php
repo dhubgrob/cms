@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @yield("css")
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" crossorigin="anonymous">
     <title>
         @yield('title')
@@ -55,11 +56,18 @@
                 <div class="col-md-4">
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <a href="/categories">Categories</a>
+                            <a href="{{ route('categories.index') }}">Categories</a>
                         </li>
                         <li class="list-group-item">
-                            <a href="/posts">Posts</a>
+                            <a href="{{ route('posts.index') }}">Posts</a>
                         </li>
+                    </ul>
+
+                    <ul class="list-group mt-5">
+                        <li class="list-group-item">
+                            <a href="{{ route('trashed-posts.index') }}">Trashed Posts</a>
+                        </li>
+
                     </ul>
                 </div>
                 <div class="col-md-8">

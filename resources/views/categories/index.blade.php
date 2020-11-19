@@ -11,7 +11,11 @@
         Categories
     </div>
     <div class="card-body">
+ @if($categories->count() == 0)
 
+    <p> No Categories... yet! Create one!</p>
+
+    @else
         <table class="table">
             <thead>
                 <th>name</th>
@@ -28,6 +32,7 @@
                 @endforeach
             </tbody>
         </table>
+        @endif
 
         <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
             <div class="modal-dialog">
