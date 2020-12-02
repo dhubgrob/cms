@@ -27,7 +27,7 @@ class CategoriesController extends Controller
 
         session()->flash('success', 'Category created successfully!');
 
-        return redirect(route('categories'));
+        return redirect(route('categories.index'));
     }
 
     public function edit(Category $category) {

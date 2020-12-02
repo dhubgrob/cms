@@ -14,7 +14,7 @@
 
     @if($posts->count() == 0)
 
-    <p> No posts... yet! Create one!</p>
+    <p> This folder is empty.</p>
 
     @else
 
@@ -23,6 +23,7 @@
             <thead>
                 <th>Image</th>
                 <th>Title</th>
+                <th>Category</th>
                 <th></th>
                 <th></th>
                 
@@ -34,11 +35,11 @@
             <tr>
             <td><img src="{{ asset('storage/'.$post->image) }}" width="60px"></td>
             <td>{{ $post->title }}</td>
-
+            <td>{{ $post->category_id }}</td>
             @if(empty($post->deleted_at))
 
             <td>
-            <a href="" class="btn btn-info btn-sm">Edit</a>
+            <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-info btn-sm">Edit</a>
             </td>
 
             <td>
@@ -57,6 +58,7 @@
             <td>
             <form action="{{ route('posts.untrash', $post->id) }}" method="post">
             @csrf
+            @method('PUT')
             <button type="submit" class="btn btn-success btn-sm">
             Untrash
             </button>

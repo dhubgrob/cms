@@ -5,13 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\CreatePostRequest;
+use App\Http\Requests\Posts\UpdatePostRequest;
 
 use App\Models\Post;
+use App\Models\Category;
 
-use Illuminate\Support\Facades\Storage;
 
 class PostsController extends Controller
 {
+
+    public function __construct() {
+        $this->middleware('verifyCategoriesCount')->only(['create', 'store']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +34,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        return view('posts.create')->with('categories', Category::all());
     }
 
     /**
@@ -50,7 +55,8 @@ class PostsController extends Controller
             'description' => $request->description,
             'content' => $request->content,
             'image' => $image,
-            'published_at' => $request->published_at
+            'published_at' => $request->published_at,
+            'category_id' => $request->category
         ]);
 
         session()->flash('success', 'Post created successfully!');
@@ -75,9 +81,9 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+        return view('posts.create')->with('post', $post)->with('categories', Category::all());
     }
 
     /**
@@ -87,9 +93,34 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePostRequest $request, $id)
     {
-        //
+        // Get the post
+        $post = Post::where('id', $id)->first();
+
+        // Store data from request
+        $data = $request->only([
+            'title',
+            'description',
+            'published_at',
+            'content',
+        ]);
+
+        // check if new image
+
+        if($request->hasFile('image')) {
+        // upload it
+        $image = $request->image->store('posts');
+        // delete old one
+        $post->deleteImage();
+
+        $data['image'] = $image;
+        }
+        // update attributes
+        $post->update($data);
+
+        session()->flash('success', 'Post updated successfully');
+        return redirect(route('posts.index'));
     }
 
     /**

@@ -18,14 +18,15 @@
     @else
         <table class="table">
             <thead>
-                <th>name</th>
-                <th></th>
+                <th>Name</th>
+                <th>Posts Count</th>
                 <th></th>
             </thead>
             <tbody>
                 @foreach($categories as $category)
                 <tr>
                     <td>{{ $category->name }} </td>
+                    <td>{{ $category->posts->count() }}</td>
                     <td><a class="btn btn-info btn-sm" href="{{ route('categories.edit', $category->id) }}">Edit</a></td>
                     <td><a class="btn btn-danger btn-sm" onclick="handleDelete({{ $category->id }})" href="#">Delete</a></td>
                 </tr>
